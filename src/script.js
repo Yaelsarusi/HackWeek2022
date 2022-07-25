@@ -7,6 +7,9 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 const params = {
     ambientLightColor: '0xffffff',
     directionalLightColor: '0xffffff',
+    backgroundColor: '0x000000',
+    ambientLightIntensity: 0.2,
+    dirictionalLightIntensity: 0.4,
   };
 
 /**
@@ -20,7 +23,10 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-//scene.background.set( '0xffffff' );
+
+gui.addColor(params, 'backgroundColor').onChange(function(value) {
+    scene.background = new THREE.Color( value );
+  });
 
 
 // Object
@@ -101,7 +107,9 @@ controls.enableDamping = true
 /**
  * Lights
  */
- const ambientLight = new THREE.AmbientLight(params.ambientLightColor, 0.2)
+ const ambientLight = new THREE.AmbientLight(params.ambientLightColor, params.ambientLightIntensity)
+ 
+ gui.add(ambientLight, 'intensity').min(0).max(1).step(0.1).name('Ambient light intensity')
  scene.add(ambientLight)
 
  gui.addColor(params, 'ambientLightColor').onChange(function(value) {
@@ -110,7 +118,9 @@ controls.enableDamping = true
 
   });
  
- const directionalLight = new THREE.DirectionalLight(params.directionalLightColor, 0.4)
+ const directionalLight = new THREE.DirectionalLight(params.directionalLightColor,params.dirictionalLightIntensity)
+
+ gui.add(directionalLight, 'intensity').min(0).max(1).step(0.1).name('Directional light intensity')
 
  gui.addColor(params, 'ambientLightColor').onChange(function(value) {
 
@@ -127,6 +137,10 @@ controls.enableDamping = true
  directionalLight.shadow.camera.right = 7
  directionalLight.shadow.camera.bottom = - 7
  directionalLight.position.set(- 5, 5, 0)
+
+ gui.add(directionalLight.position, 'x').min(-10).max(10).step(0.1).name('directional light position x')
+ gui.add(directionalLight.position, 'y').min(-10).max(10).step(0.1).name('directional light position y')
+ gui.add(directionalLight.position, 'z').min(-10).max(10).step(0.1).name('directional light position z')
  scene.add(directionalLight)
 
 
@@ -157,7 +171,6 @@ const tick = () =>
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
-    console.log(camera.position)
 }
 
 tick()
