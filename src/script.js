@@ -7,7 +7,7 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 const params = {
     ambientLightColor: '0xffffff',
     directionalLightColor: '0xffffff',
-    backgroundColor: '0x000000',
+    backgroundColor: '0xe3e3e3',
     ambientLightIntensity: 0.2,
     dirictionalLightIntensity: 0.4,
   };
@@ -23,7 +23,7 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-
+scene.background = new THREE.Color( params.backgroundColor );
 gui.addColor(params, 'backgroundColor').onChange(function(value) {
     scene.background = new THREE.Color( value );
   });
@@ -42,12 +42,12 @@ loader.load(
         gui.add(object.position, 'x').min(-10).max(10).step(0.1).name('object position x')
         gui.add(object.position, 'y').min(-10).max(10).step(0.1).name('object position y')
         gui.add(object.position, 'z').min(-10).max(10).step(0.1).name('object position z')
-        gui.add(object.scale, 'x').min(0).max(1).step(0.001).name('object scale x')
-        gui.add(object.scale, 'y').min(0).max(1).step(0.001).name('object scale y')
-        gui.add(object.scale, 'z').min(0).max(1).step(0.001).name('object scale z')
         object.scale.x = 0.0015
         object.scale.y = 0.0015
         object.scale.z = 0.0015
+        gui.add(object.scale, 'x').min(0).max(1).step(0.001).name('object scale x')
+        gui.add(object.scale, 'y').min(0).max(1).step(0.001).name('object scale y')
+        gui.add(object.scale, 'z').min(0).max(1).step(0.001).name('object scale z')
 		scene.add( object );
 	},
 	// called when loading is in progresses
@@ -136,7 +136,7 @@ controls.enableDamping = true
  directionalLight.shadow.camera.top = 7
  directionalLight.shadow.camera.right = 7
  directionalLight.shadow.camera.bottom = - 7
- directionalLight.position.set(- 5, 5, 0)
+ directionalLight.position.set(- 5, 2.6, 0)
 
  gui.add(directionalLight.position, 'x').min(-10).max(10).step(0.1).name('directional light position x')
  gui.add(directionalLight.position, 'y').min(-10).max(10).step(0.1).name('directional light position y')
